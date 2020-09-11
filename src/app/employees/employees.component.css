@@ -1,0 +1,14 @@
+.searchByName {
+    width: 100%;
+}
+
+.sorting-button {
+    margin-top: 8px;
+}
+.filter-buttons{
+    margin-left: 8em;
+    text-align: center;
+}
+.filter-center{
+    text-align: center;
+}
