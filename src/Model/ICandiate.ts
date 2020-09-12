@@ -3,4 +3,5 @@ export interface ICandiate {
     name: string;
     department: string;
     joining_date: string;
+    dateWord:string
 }

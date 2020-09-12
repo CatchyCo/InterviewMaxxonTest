@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { element } from 'protractor';
 import { ICandiate } from 'src/Model/ICandiate';
@@ -33,6 +34,10 @@ export class EmployeesComponent implements OnInit {
     this.temp = this.temp.filter(employee => employee.name === value);
   }
 
+  applyArray(array) {
+    this.temp = array;
+    console.log(array)
+  }
   //Function for soring the table according to user input
   sorting(value) {
     this.temp = this.employeeDataArray;
@@ -58,6 +63,10 @@ export class EmployeesComponent implements OnInit {
         dateKey.push(newDateArray[i]);
       }
 
+      //add addiditional property in 'this.temp'  
+      for (var i = 0; i < this.employeeDataArray.length; i++) {
+        this.temp[i]['dateWord'] = dateKey[i];
+      }
       //Date sorting 
       var tempDate;
       for (var i = 0; i <= this.temp.length - 1; i++) {
@@ -69,10 +78,7 @@ export class EmployeesComponent implements OnInit {
           }
         }
       }
-      //add addiditional property in 'this.temp'  
-      for (var i = 0; i < this.employeeDataArray.length; i++) {
-        this.temp[i]['dateWord'] = dateKey[i];
-      }
+
 
       var finalSortedDate = [];
       // Array the element of Employee array in same sequence as of sorted dates, and stored in finalSortedDate
@@ -85,10 +91,9 @@ export class EmployeesComponent implements OnInit {
       }
       //Assigning Finalsortedarray to 'this.temp'
       this.temp = finalSortedDate;
-
     }
   }
- 
+
   showExp2Y() {
     //Fetch the year of Employee's joining 
     var currentDate = new Date().toDateString().split(' ')[3];
