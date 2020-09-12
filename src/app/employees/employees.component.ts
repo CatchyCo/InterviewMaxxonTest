@@ -120,17 +120,27 @@ export class EmployeesComponent implements OnInit {
 
   showDepartment() {
     this.showMainTable = !this.showMainTable;
-    var arrayDep = this.temp.map(employee => employee.department);
+    this.temp = this.employeeDataArray;
+    var arrayDep = [];
+    this.finalDepart = [];
+    arrayDep = this.temp.map(employee => employee.department);
     var setDep = new Set(arrayDep);
     var depart;
     for (depart of setDep.values()) {
       let count = this.getoccuratence(arrayDep, depart)
       this.finalDepart.push({ "department": depart, "count": count })
     }
-    console.log(this.finalDepart);
-
-
-
   }
+
+  deleteDepartment(value) {
+    this.temp = this.employeeDataArray;
+    this.temp = this.temp.map(employee => { if (employee.department != value) return employee });
+    console.log(this.temp);
+  }
+
+  reset() {
+    this.temp = this.employeeDataArray;
+  }
+
 
 }
