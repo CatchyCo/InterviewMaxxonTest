@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { count } from 'console';
 import { element } from 'protractor';
 import { ICandiate } from 'src/Model/ICandiate';
 import { deprecate } from 'util';
@@ -15,9 +14,11 @@ export class EmployeesComponent implements OnInit {
 
   constructor(public employeeData: DataFetchingServiceService) { }
   employeeDataArray: ICandiate[];
-  temp: ICandiate[];
-  showMainTable = true;
-  finalDepart = [];
+  temp: ICandiate[]; // tempory variable changes according to user requirements
+  showMainTable = true; // use for hidding the Employees table
+  finalDepart = []; // Array  for storing departments and number of employees of respective department 
+
+  // Init Method for fetching Employees data from  DataFetchingService
   ngOnInit(): void {
     this.employeeData.getEmpolyees()
       .subscribe(data => {
@@ -26,10 +27,13 @@ export class EmployeesComponent implements OnInit {
       }
       );
   }
+  //Function to employees by Name
   findByName(value) {
     this.temp = this.employeeDataArray;
     this.temp = this.temp.filter(employee => employee.name === value);
   }
+
+  //Function for soring the table according to user input
   sorting(value) {
     this.temp = this.employeeDataArray;
     if (value === 'name') {
@@ -39,62 +43,44 @@ export class EmployeesComponent implements OnInit {
         return 0;
       });
     } else {
-      let dateKey = [];
+
       let sortedDate = this.temp.map(employee => employee.joining_date);
-      console.log(sortedDate);
+      let dateKey = [];
       var dateArray = sortedDate.map(date =>
         date.split("/").reverse().join("-")
       );
       let newDateArray = dateArray.map(date => new Date(date));
       for (var i = 0; i <= this.temp.length - 1; i++) {
-        dateKey.push({ dateNumber: sortedDate[i], dateWords: newDateArray[i] });
+        dateKey.push(newDateArray[i]);
       }
-      console.log(dateKey);
+      for (var i = 0; i < this.employeeDataArray.length; i++) {
+        this.temp[i]['dateWord'] = dateKey[i];
+      }
       var tempDate;
-
-
-      for (var i = 0; i < this.temp.length - 1; i++) {
-        for (var j = 1; j < this.temp.length - 1; j++) {
-          if (newDateArray[i] > newDateArray[i + j]) {
-            tempDate = newDateArray[i];
-            newDateArray[i] = newDateArray[i + j];
-            newDateArray[i + j] = tempDate;
+      for (var i = 0; i <= this.temp.length - 1; i++) {
+        for (var j = 0; j <= this.temp.length - 1; j++) {
+          if (dateKey[i] > dateKey[i + j]) {
+            tempDate = dateKey[i];
+            dateKey[i] = dateKey[i + j];
+            dateKey[i + j] = tempDate;
           }
         }
       }
 
-      console.log(dateKey['dateWords']);
-      /*     var finaleArray=[];
-        for (var i = 0; i < this.temp.length - 1; i++) {
-          for (var j = 1; j < this.temp.length - 1 ; j++) {
-                    if(newDateArray[i] == dateKey['dateWords'][j]  ){
-                        finaleArray.push(dateKey)
-                    }
+      console.log(dateKey)
+      var finalSortedDate = [];
+
+      for (var i = 0; i <= this.temp.length - 1; i++) {
+        for (var j = 0; j <= this.temp.length - 1; j++) {
+          if (dateKey[i] === this.temp[j]['dateWord']) {
+            finalSortedDate[i] = this.temp[j]
           }
-        } */
+        }
+      }
 
-      // console.log(finaleArray);
-      /*     for (var i = 0; i <=this.temp.length - 1; i++) {
-            for (var j = 1; j <=this.temp.length - 1; j++) {
-              if (dateKey['dateWords'][i] > dateKey['dateWords'][i + j]) {
-                tempDate = dateKey['dateWords'][i];
-                dateKey['dateWords'][i] = dateKey['dateWords'][i + j]
-                dateKey['dateWords'][i + j] = tempDate;
-              }
-            }
-          } */
+      console.log(finalSortedDate)
+      this.temp = finalSortedDate;
 
-      /* console.log(dateKey['dateword'][0])
-      console.log(newDateArray[5]);
-      console.log(dateKey.includes(newDateArray[0])); */
-      /*  const sortedMonths = sortedDate.map(emp => parseInt((emp.split('/')[1])));
-       console.log(sortedMonths.sort());
-       const sortedDays = sortedDate.map(emp => parseInt((emp.split('/')[0])));
-       console.log(sortedDays.sort());
-       var a = new Date('2019-06-28')
-  var b = new Date('2018-06-11')
-  console.log(a<b)
-  */
     }
   }
 
