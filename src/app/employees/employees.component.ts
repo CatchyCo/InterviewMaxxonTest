@@ -44,18 +44,21 @@ export class EmployeesComponent implements OnInit {
       });
     } else {
 
+      //Creates new array of only dates
       let sortedDate = this.temp.map(employee => employee.joining_date);
       let dateKey = [];
+      //Changes the pattern of date from 'dd/mm/yyy' into 'yyyy-mm-dd'
       var dateArray = sortedDate.map(date =>
         date.split("/").reverse().join("-")
       );
+      /*Applies new Date() function on each date to Change the formate of date.
+      The changed date formate helps for sorting the date in accending manner.*/
       let newDateArray = dateArray.map(date => new Date(date));
       for (var i = 0; i <= this.temp.length - 1; i++) {
         dateKey.push(newDateArray[i]);
       }
-      for (var i = 0; i < this.employeeDataArray.length; i++) {
-        this.temp[i]['dateWord'] = dateKey[i];
-      }
+
+      //Date sorting 
       var tempDate;
       for (var i = 0; i <= this.temp.length - 1; i++) {
         for (var j = 0; j <= this.temp.length - 1; j++) {
@@ -66,10 +69,13 @@ export class EmployeesComponent implements OnInit {
           }
         }
       }
+      //add addiditional property in 'this.temp'  
+      for (var i = 0; i < this.employeeDataArray.length; i++) {
+        this.temp[i]['dateWord'] = dateKey[i];
+      }
 
-      console.log(dateKey)
       var finalSortedDate = [];
-
+      // Array the element of Employee array in same sequence as of sorted dates, and stored in finalSortedDate
       for (var i = 0; i <= this.temp.length - 1; i++) {
         for (var j = 0; j <= this.temp.length - 1; j++) {
           if (dateKey[i] === this.temp[j]['dateWord']) {
@@ -77,14 +83,14 @@ export class EmployeesComponent implements OnInit {
           }
         }
       }
-
-      console.log(finalSortedDate)
+      //Assigning Finalsortedarray to 'this.temp'
       this.temp = finalSortedDate;
 
     }
   }
-
+ 
   showExp2Y() {
+    //Fetch the year of Employee's joining 
     var currentDate = new Date().toDateString().split(' ')[3];
     this.temp = this.employeeDataArray;
     this.temp = this.temp.map(employee => {
@@ -94,6 +100,7 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
+  //Function the department and counts of their appears
   getoccuratence(array, value) {
     var count = 0;
     array.forEach(element => {
@@ -102,6 +109,7 @@ export class EmployeesComponent implements OnInit {
     return count;
   }
 
+  //Show the table of department and number of employees on respective department
   showDepartment() {
     this.showMainTable = !this.showMainTable;
     this.temp = this.employeeDataArray;
@@ -116,12 +124,14 @@ export class EmployeesComponent implements OnInit {
     }
   }
 
+  //Function to delete 'Development' department
   deleteDepartment(value) {
     this.temp = this.employeeDataArray;
     this.temp = this.temp.map(employee => { if (employee.department != value) return employee; });
     console.log(this.temp);
   }
 
+  //Function to reset the Employees table
   reset() {
     this.temp = this.employeeDataArray;
     this.temp.sort((a, b) => {
