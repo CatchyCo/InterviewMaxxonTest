@@ -1,0 +1,24 @@
+<div class="container">
+    <h3>Employee Detail</h3>
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Joining Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of temp">
+                <ng-container *ngIf='employee.id == id'>
+                    <td> <a routerLink="/details/{{employee.id}}"> {{ employee.id }} </a></td>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.department }}</td>
+                    <td>{{ employee.joining_date }}</td>
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-dark" routerLink="/employees"> Back </button>
+</div>

@@ -41,7 +41,7 @@
             <tbody>
                 <tr *ngFor="let employee of temp">
                     <ng-container *ngIf='employee'>
-                        <td>{{ employee.id }}</td>
+                        <td> <a routerLink="/details/{{employee.id}}" > {{ employee.id }} </a></td>
                         <td>{{ employee.name }}</td>
                         <td>{{ employee.department }}</td>
                         <td>{{ employee.joining_date }}</td>
@@ -75,7 +75,7 @@
             <button class="btn btn-dark ml-3" (click)='showDepartment()'> Show Department / Main table</button>
         </div>
         <div class="col-4">
-            <button class="btn btn-danger " (click)="deleteDepartment('Development')">Remove Developement </button>
+            <button class="btn btn-danger " (click)="deleteDepartment('Development')">Remove 'Developement' </button>
         </div>
         <div class="col-4">
             <button class="btn btn-info" (click)="reset()">Reset </button>

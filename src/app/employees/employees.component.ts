@@ -39,27 +39,25 @@ export class EmployeesComponent implements OnInit {
         return 0;
       });
     } else {
-
       let dateKey = [];
       let sortedDate = this.temp.map(employee => employee.joining_date);
       console.log(sortedDate);
       var dateArray = sortedDate.map(date =>
         date.split("/").reverse().join("-")
-      )
-      let newDateArray = dateArray.map(date => new Date(date))
-
-
+      );
+      let newDateArray = dateArray.map(date => new Date(date));
       for (var i = 0; i <= this.temp.length - 1; i++) {
-        dateKey.push({ dateNumber: sortedDate[i], dateWords: newDateArray[i] })
+        dateKey.push({ dateNumber: sortedDate[i], dateWords: newDateArray[i] });
       }
       console.log(dateKey);
       var tempDate;
+
 
       for (var i = 0; i < this.temp.length - 1; i++) {
         for (var j = 1; j < this.temp.length - 1; j++) {
           if (newDateArray[i] > newDateArray[i + j]) {
             tempDate = newDateArray[i];
-            newDateArray[i] = newDateArray[i + j]
+            newDateArray[i] = newDateArray[i + j];
             newDateArray[i + j] = tempDate;
           }
         }
@@ -107,13 +105,13 @@ export class EmployeesComponent implements OnInit {
       if ((parseInt(currentDate) - parseInt(employee.joining_date.split("/").pop())) > 2) {
         return employee;
       }
-    })
+    });
   }
 
   getoccuratence(array, value) {
     var count = 0;
     array.forEach(element => {
-      if (element == value) count++
+      if (element == value) count++;
     });
     return count;
   }
@@ -127,19 +125,25 @@ export class EmployeesComponent implements OnInit {
     var setDep = new Set(arrayDep);
     var depart;
     for (depart of setDep.values()) {
-      let count = this.getoccuratence(arrayDep, depart)
-      this.finalDepart.push({ "department": depart, "count": count })
+      let count = this.getoccuratence(arrayDep, depart);
+      this.finalDepart.push({ "department": depart, "count": count });
     }
   }
 
   deleteDepartment(value) {
     this.temp = this.employeeDataArray;
-    this.temp = this.temp.map(employee => { if (employee.department != value) return employee });
+    this.temp = this.temp.map(employee => { if (employee.department != value) return employee; });
     console.log(this.temp);
   }
 
   reset() {
     this.temp = this.employeeDataArray;
+    this.temp.sort((a, b) => {
+      if (a.id < b.id) { return -1; }
+      if (a.id > b.id) { return 1; }
+      return 0;
+    });
+
   }
 
 
